@@ -19,7 +19,7 @@ from networksecurity.entity.config_entity import (
     DataValidationConfig,
     DataTransformationConfig,
     ModelTrainerConfig,
-    ModelEvalutionConfig,
+    ModelEvaluationConfig,
     ModelPusherConfig
 )
 
@@ -29,7 +29,7 @@ from networksecurity.entity.artifact_entity import (
     DataValidationArtifact,
     DataTransformationArtifact,
     ModelTrainerArtifact,
-    ModelEvalutionArtifact,
+    ModelEvaluationArtifact,
     ModelPusherArtifact
 )
 
