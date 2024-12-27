@@ -4,3 +4,4 @@ seaborn
 python-dotenv
 pymongo
 certifi
+pymongo[srv]

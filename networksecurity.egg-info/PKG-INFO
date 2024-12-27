@@ -10,3 +10,4 @@ Requires-Dist: seaborn
 Requires-Dist: python-dotenv
 Requires-Dist: pymongo
 Requires-Dist: certifi
+Requires-Dist: pymongo[srv]

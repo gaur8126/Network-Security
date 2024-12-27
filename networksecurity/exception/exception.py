@@ -14,3 +14,7 @@ class NetworkSecurityException(Exception):
         return "Error occures in python script name [{0}] line number [{1}] error message [{2}]".format(
             self.file_name,self.lineno,str(self.error_message)
         )
+
+
+
+    
