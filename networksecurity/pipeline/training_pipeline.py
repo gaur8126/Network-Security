@@ -2,6 +2,7 @@ import os
 import sys 
 
 from networksecurity.exception.exception import NetworkSecurityException
+from networksecurity.logger.logger import logging 
 
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
@@ -22,7 +23,7 @@ from networksecurity.entity.config_entity import (
     ModelPusherConfig
 )
 
-from networksecurity.entity.config_entity import (
+from networksecurity.entity.artifact_entity import (
     TrainingPipelineArtifact,
     DataIngestionArtifact,
     DataValidationArtifact,
