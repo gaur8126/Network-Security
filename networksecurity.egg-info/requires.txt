@@ -1,0 +1,6 @@
+pandas
+numpy
+seaborn
+python-dotenv
+pymongo
+certifi
