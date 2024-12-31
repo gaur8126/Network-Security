@@ -48,6 +48,23 @@ DATA_VALIDATION_DRIFT_REPORT_FILE_NAME:str = "report.yaml"
 """
 Data Transfromation related constant start with DATA_TRANSFRAMTION VAR name
 """
+
+
+DATA_TRANSFORMATION_DIR_NAME:str = "data_transformation"
+DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR :str = "transformed"
+DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR :str = "transformed_object"
+
+DATA_TRANSFORMATION_IMPUTER_PARAMS :str = {
+    "missing_values":np.nan,
+    "n_neighbors":3,
+    "weights":"uniform",
+}
+
+DATA_TRANSFORMATION_TRAIN_FILE_PATH :str = "train.npy"
+DATA_TRANSFORMATION_TEST_FILE_PATH :str = "test.npy"
+
+
+
 """
 Model Trainer   related constant start with MODEL_TRAINER VAR name
 """
