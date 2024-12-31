@@ -5,6 +5,8 @@ python-dotenv
 pymongo
 certifi
 pymongo[srv]
+dill
+pyyaml
 scikit-learn
 
 # -e . 
