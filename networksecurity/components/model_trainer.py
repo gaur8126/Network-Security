@@ -11,6 +11,9 @@ from xgboost import XGBClassifier
 from networksecurity.utils.ml_utils.model.estimator import NetworkModel
 from networksecurity.utils.main_utils.utils import load_numpy_array_data,save_object,load_object
 from networksecurity.utils.ml_utils.metric.classification_metric import get_classification_score
+from sklearn.model_selection import GridSearchCV
+# import optuna
+# from optuna.integration import XGBoostPruningCallback
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
@@ -22,19 +25,55 @@ class ModelTrainer:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def perform_hyper_parameter_tuning(self):
+    def perform_hyper_parameter_tuning(self,clf,x_train,y_train):
         pass
+    
+        # params = {
+        #     "booster":['gbtree','gblinear','dart'],
+        #     "verbosity" : [0,1,2,3],
+        #     "eta":[0.1,0.2,0.3,0.4,0.5],
+        #     "gamma":[0,1,2,3,4,5],
+        #     "max_depth":[3,5,6,8,9]
+        # }
+        # logging.info("Tuning has started")
+        # gcv  = GridSearchCV(clf,cv=5,verbose=3,param_grid=params)
+        # gcv.fit(x_train,y_train)
+        # best_params = gcv.best_params_
+        # logging.info(f"best parameters : {best_params}")
+        # return best_params
+
+
+        # def objective(trial):
+        #     param = {
+        #         "booster": trial.suggest_categorical("booster", ["gbtree", "gblinear", "dart"]),
+        #         "verbosity": trial.suggest_int("verbosity", 0, 3),
+        #         "eta": trial.suggest_float("eta", 0.1, 0.5),
+        #         "gamma": trial.suggest_int("gamma", 0, 5),
+        #         "max_depth": trial.suggest_int("max_depth", 3, 9),
+        #     }
+        #     model = XGBClassifier(**param)
+        #     model.fit(x_train, y_train, eval_set=[(x_test, y_test)], early_stopping_rounds=10)
+        #     return model.score(x_test, y_test)
+
+        # study = optuna.create_study(direction="maximize")
+        # study.optimize(objective, n_trials=50)
+        # print("Best parameters:", study.best_params)
+
 
     def train_model(self,x_train,y_train):
         try:
+            logging.info("Training has started")
+            # best_params = self.perform_hyper_parameter_tuning(clf=XGBClassifier(),x_train=x_train,y_train = y_train)
             xgb_clf = XGBClassifier()
             xgb_clf.fit(x_train,y_train)
+            logging.info("Model training has completed")
             return xgb_clf
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
     def initiate_model_trainer(self)->ModelTrainerArtifact:
         try:
+            logging.info("Training file path")
             train_file_path = self.data_transformation_artifact.transformed_train_file_path
             test_file_path = self.data_transformation_artifact.transformed_test_file_path
 
