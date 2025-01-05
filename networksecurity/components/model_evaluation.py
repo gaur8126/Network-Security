@@ -37,7 +37,7 @@ class ModelEvaluation:
             train_df = pd.read_csv(valid_train_file_path)
             test_df = pd.read_csv(valid_test_file_path)
 
-            df = pd.concat(train_df,test_df)
+            df = pd.concat([train_df,test_df])
 
             print(df)
             y_true = df[TARGET_COLUMN]
@@ -92,11 +92,11 @@ class ModelEvaluation:
 
             model_eval_report = model_evaluation_artifact.__dict__
 
-            print(model_eval_report)
+            # print(model_eval_report)
 
 
-            dir_path = os.path.dirname(self.model_eval_config.model_evaluation_dir)
-            os.makedirs(dir_path,exist_ok=True)
+            # dir_path = os.path.dirname(self.model_eval_config.model_evaluation_dir)
+            # os.makedirs(dir_path,exist_ok=True)
 
             write_yaml_file(self.model_eval_config.report_file_path,model_eval_report)
             logging.info(f"Model evaluation artifact : {model_evaluation_artifact}")

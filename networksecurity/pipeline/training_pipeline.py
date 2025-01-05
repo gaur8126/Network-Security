@@ -95,14 +95,17 @@ class TrainingPipeline:
         try:
             model_evaluation_config:ModelEvaluationConfig = ModelEvaluationConfig(training_pipeline_config=self.training_pipeline_config) 
             model_eval = ModelEvaluation(model_evaluation_config,data_validation_artifact,model_trainer_artifact)
-            model_eval_artifact = model_eval.initiate_model_evaluation()
+            model_eval_artifact = model_eval.initiate_model_avaluation()
             return model_eval_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def start_mode_pusher(self):
+    def start_model_pusher(self,model_eval_artifact:ModelEvaluationArtifact):
         try:
-            pass
+            model_pusher_config = ModelPusherConfig(training_pipeline_config = self.training_pipeline_config)
+            model_pusher = ModelPusher(model_pusher_config,model_eval_artifact)
+            model_pusher_artifact = model_pusher.initiate_model_pusher()
+            return model_pusher_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -115,7 +118,13 @@ class TrainingPipeline:
             # print(data_validation_artifact)
             data_transformation_artifactc=self.start_data_transformation(data_validation_artifact= data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifactc)
-            self.start_model_evaluation(model_trainer_artifact = model_trainer_artifact)
+            model_eval_artifact = self.start_model_evaluation(model_trainer_artifact = model_trainer_artifact,data_validation_artifact=data_validation_artifact)
+
+            if not model_eval_artifact.is_model_accepted:
+                print("Trained model is not better then the best model")
+            
+            model_pusher_artifact = self.start_model_pusher(model_eval_artifact)
+
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
