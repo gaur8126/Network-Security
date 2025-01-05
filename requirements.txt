@@ -9,4 +9,6 @@ dill
 pyyaml
 scikit-learn
 xgboost
+fastapi
+uvicorn
 # -e . 
