@@ -5,3 +5,13 @@ python-dotenv
 pymongo
 certifi
 pymongo[srv]
+dill
+pyyaml
+scikit-learn
+xgboost
+fastapi
+uvicorn
+ipykernel
+apache.airflow
+mlflow
+dvc

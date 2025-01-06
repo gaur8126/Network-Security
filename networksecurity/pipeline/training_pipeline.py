@@ -33,11 +33,16 @@ from networksecurity.entity.artifact_entity import (
     ModelPusherArtifact
 )
 
+from networksecurity.cloud.s3syncer import S3Sync
+from networksecurity.constant.training_pipeline import TRAINING_BUCKET_NAME
+from networksecurity.constant.training_pipeline import SAVE_MODEL_DIR
 
 
 class TrainingPipeline:
+    is_pipeline_running = False
     def __init__(self):
         self.training_pipeline_config = TrainingPipelineConfig()
+        self.s3_sync = S3Sync()
 
     def start_data_ingestion(self):
         try:
@@ -109,6 +114,20 @@ class TrainingPipeline:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
+    def sync_artifact_dir_to_s3(self):
+        try:
+            aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/artifact/{self.training_pipeline_config.timestamp}"
+            self.s3_sync.sync_folder_to_s3(folder = self.training_pipeline_config.artifact_dir,aws_bucket_url=aws_bucket_url)
+        except Exception as e:
+            raise NetworkSecurityException(e,sys)
+        
+    def sync_saved_model_dir_to_s3(self):
+        try:
+            aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/{SAVE_MODEL_DIR}"
+            self.s3_sync.sync_folder_to_s3(folder=SAVE_MODEL_DIR,aws_bucket_url=aws_bucket_url)
+        except Exception as e:
+            raise NetworkSecurityException(e,sys)
+        
 
     def run_pipeline(self):
         try:
@@ -125,7 +144,13 @@ class TrainingPipeline:
             
             model_pusher_artifact = self.start_model_pusher(model_eval_artifact)
 
+            TrainingPipeline.is_pipeline_running = False
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_model_dir_to_s3()
+
         except Exception as e:
+            self.sync_artifact_dir_to_s3()
+            TrainingPipeline.is_pipeline_running = False
             raise NetworkSecurityException(e,sys)
         
     
